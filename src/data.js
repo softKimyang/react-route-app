@@ -46,3 +46,7 @@ let invoices = [
         (invoice) => invoice.number !== number
     );
   }
+
+  export function getInvoicesCount(){
+    return invoices.length;
+  }

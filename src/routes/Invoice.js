@@ -1,11 +1,20 @@
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { getInvoice, deleteInvoice } from '../data';
+import { getInvoice, deleteInvoice, getInvoicesCount } from '../data';
 
 export default function Invoice() {
     let params = useParams();
     let navigate = useNavigate();
     let location = useLocation();
     let invoice = getInvoice(parseInt(params.invoiceId, 10));
+    let count = getInvoicesCount();
+    function navigateAfterDelete(){
+        console.log('count ' , count);
+        if(count === 0){
+            navigate("/Invoices");
+        }else{
+            navigate("/Invoices" + location.search);     
+        }
+    }
     return (
       <main style={{ padding: "1rem" }}>
         <h2>Total Due: {invoice.amount}</h2>
@@ -17,7 +26,8 @@ export default function Invoice() {
             <button 
                 onClick={ () =>{
                     deleteInvoice(invoice.number);
-                    navigate("/Invoices" + location.search)
+                    navigateAfterDelete();
+                    //navigate("/Invoices" + location.search);
                 }}
             >
                 Delete
